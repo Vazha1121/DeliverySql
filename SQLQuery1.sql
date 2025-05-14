@@ -1,70 +1,56 @@
-CREATE DATABASE DeliveryDB
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE UserP 
+       @UserID bigint = NULL,
+	  
+	   @UserFirstName nvarchar(20) = NULL,
+	   @UserLastName nvarchar(20) = NULL,
+	   @PostIndex int = NULL,
+
+	   @UserTBAction tinyint
+	  
+AS
+BEGIN
+     /*User Table*/
+     IF @UserTBAction = 0 -- INSERT
+	 BEGIN
+	      INSERT INTO UsersTB (UserFirstName,UserLastName,PostIndex)
+		  VALUES (@UserFirstName,@UserLastName,@PostIndex);
+	 END
+	 ELSE IF @UserTBAction = 1 -- UPDATE
+	 BEGIN 
+	      UPDATE UsersTB
+		  SET 
+		  UserFirstName = ISNULL(@UserFirstName, UserFirstName),
+		  UserLastName = ISNULL(@UserLastName, UserLastName),
+		  PostIndex = ISNULL(@PostIndex, PostIndex)
+		  WHERE UserID = @UserID
+	 END
+	 ELSE IF @UserTBAction = 2 -- DELETE
+	 BEGIN
+	      DELETE FROM UsersTB
+		  WHERE UserID = @UserID
+	 END
 
 
-USE DeliveryDB
-
-
-CREATE TABLE UsersTB
-(
-UserID bigint identity(1,1) PRIMARY KEY,
-UserFirstName nvarchar(20) default 'Unknown',
-UserLastName nvarchar(20) default 'Unknown',
-PostIndex int,
-)
-
-
-CREATE TABLE GoodsTB
-(
-GoodID int identity(1,1) PRIMARY KEY,
-GoodName nvarchar(20),
-Quantity bigint default 0,
-Price int default 0.00,
-WareHouseID int NOT NULL,
-
-)
-
-ALTER TABLE GoodsTb
-ADD FOREIGN KEY (WareHouseID) REFERENCES WareHouseTB(WarehouseID)
-
-CREATE TABLE TransporterTB
-(
-TransporterID int identity(1,1) PRIMARY KEY,
-TransporterName nvarchar(20),
-)
- 
-/*ORDERS TABLE*/
-
-CREATE TABLE OrdersTB
-(
-OrderID int identity(1,1) PRIMARY KEY,
-RecieverID bigint NOT NULL ,
-GoodID int NOT NULL,
-TransporterID int NOT NULL,
-OrderDate datetime,
-OrderDue datetime,
-FOREIGN KEY (RecieverID) REFERENCES UsersTB(UserID),
-FOREIGN KEY (GoodID) REFERENCES GoodsTB(GoodID),
-FOREIGN KEY (TransporterID) REFERENCES TransporterTB(TransporterID),
-)
-
-CREATE TABLE WareHouseTB
-(
-WarehouseID int identity(1,1) PRIMARY KEY,
-WarehouseName nvarchar(20) NOT NULL Default 'NoName',
-WarehouseCityID nvarchar(20) NOT NULL,
-)
-
-ALTER TABLE WareHouseTB
-ALTER COLUMN WarehouseCityID int NOT NULL
-
-
-ALTER TABLE WareHouseTB
-ADD FOREIGN KEY (WarehouseCityID) REFERENCES CitiesTB(CityID)
-
-
-CREATE TABLE CitiesTB
-(
-CityID int identity(1,1) PRIMARY KEY,
-CityName nvarchar(20) NOT NULL,
-CityPostIndex int NOT NULL,
-)
+	 
+END
+GO
