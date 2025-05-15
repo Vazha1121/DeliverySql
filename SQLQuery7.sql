@@ -1,4 +1,4 @@
- --================================================
+-- ================================================
 -- Template generated from Template Explorer using:
 -- Create Procedure (New Menu).SQL
 --
@@ -18,34 +18,30 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE GoodsP
-    
-	 @GoodID int = NULL,
-	 @GoodName nvarchar(20) = NULL,
-	 @Quantity bigint = NULL,
-	 @Price int = NULL,
-	 @GoodsTBAction tinyint
+CREATE PROCEDURE TransporterP
+     @TransporterID int = NULL,
+	 @TransporterName nvarchar(20) = NULL,
+	 @TransporterTBAction tinyint
 
+     
 AS
 BEGIN
-   IF @GoodsTBAction = 0 -- INSERT
+	 IF @TransporterTBAction = 0 -- INSERT
 	 BEGIN
-	      INSERT INTO GoodsTB (GoodName, Quantity, Price)
-		  VALUES (@GoodName, @Quantity, @Price);
+	      INSERT INTO TransporterTB (TransporterName)
+		  VALUES (@TransporterName);
 	 END
-	 ELSE IF @GoodsTBAction = 1 -- UPDATE
+	 ELSE IF @TransporterTBAction = 1 -- UPDATE
 	 BEGIN 
-	      UPDATE GoodsTB
+	      UPDATE TransporterTB
 		  SET 
-		  GoodName = ISNULL(@GoodName, GoodName),
-		  Quantity = ISNULL(@Quantity, Quantity),
-		  Price = ISNULL(@Price, Price)
-		  WHERE GoodID = @GoodID
+		  TransporterName = ISNULL(@TransporterName, TransporterName)
+		  WHERE TransporterID = @TransporterID
 	 END
-	 ELSE IF @GoodsTBAction = 2 -- DELETE
+	 ELSE IF @TransporterTBAction = 2 -- DELETE
 	 BEGIN
-	      DELETE FROM GoodsTB
-		  WHERE GoodID = @GoodID
+	      DELETE FROM TransporterTB
+		  WHERE TransporterID = @TransporterID
 	 END
 END
 GO
