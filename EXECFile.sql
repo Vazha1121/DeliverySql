@@ -87,7 +87,6 @@ FROM GetAllWarehouse()
 SELECT 
 *
 FROM InfoAboutGood()
-
 SELECT
 *
 FROM UserPlace()
@@ -97,3 +96,38 @@ SELECT
 FROM OrderFullInfo()
 
 COMMIT;
+
+SELECT
+WarehouseName
+FROM OrderFullInfo()
+GROUP BY WarehouseName
+
+SELECT
+*
+FROM OrderFullInfo()
+ORDER BY Quantity ASC
+
+SELECT
+* 
+FROM OrederedOrderFullInfo()
+
+
+SELECT 
+  u.UserFirstName,
+  u.UserLastName,
+  c.CityName,
+  c.CityPostIndex,
+  g.GoodName,
+  w.WarehouseName,
+  g.Quantity,
+  g.Price,
+  t.TransporterName,
+  o.OrderDate,
+  o.OrderDue
+  FROM OrdersTB o
+  JOIN UsersTB u ON o.UserID = u.UserID
+  JOIN GoodsTB g ON o.GoodID = g.GoodID
+  JOIN WareHouseTB w ON w.WarehouseID = g.WareHouseID
+  JOIN CitiesTB c ON u.PostIndex = c.CityPostIndex
+  JOIN TransporterTB t ON o.TransporterID = t.TransporterID
+  GROUP BY c.CityName
