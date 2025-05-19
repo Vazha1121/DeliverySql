@@ -96,3 +96,4 @@ SELECT
 * 
 FROM OrderFullInfo()
 
+COMMIT;
