@@ -1,4 +1,4 @@
--- =================================== =============
+-- ================================================
 -- Template generated from Template Explorer using:
 -- Create Trigger (New Menu).SQL
 --
@@ -21,24 +21,15 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE TRIGGER CitiesTB_UPDATE ON CitiesTB
-  AFTER UPDATE
+CREATE TRIGGER CitiesTB_DELETE ON CitiesTB
+  AFTER DELETE
    
 AS 
 BEGIN
 	 SET NOCOUNT ON;
-
 	 DECLARE @CityIndex int
-	 DECLARE @Action varchar(30)
-
-	 SELECT @CityIndex = INSERTED.CityPostIndex
-	 FROM INSERTED
-
-	 IF UPDATE(CityPostIndex)
-	    SET @Action = 'Updated City Index'
-
-	 IF UPDATE(CityName)
-	    SET @Action = 'Updated City Name'
+	 SELECT @CityIndex = DELETED.CityPostIndex
+	 FROM DELETED
 
 	 INSERT INTO CitiesTBLogs
 	 VALUES(@CityIndex,'Deleted')
